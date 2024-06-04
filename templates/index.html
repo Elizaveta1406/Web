@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <title>Конвертер валют</title>
+    <style>
+      body {
+        background-color: #FFE4E1;
+        color: #0000FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+      .container {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Добро пожаловать в конвертер валют!</h1>
+      <form method="POST">
+        <label for="amount">Сумма:</label>
+        <input type="text" id="amount" name="amount" required><br><br>
+        <label for="from_currency">Из валюты:</label>
+        <select id="from_currency" name="from_currency">
+          {% for code, name in currencies.items() %}
+            <option value="{{ code }}">{{ name }}</option>
+          {% endfor %}
+        </select><br><br>
+        <label for="to_currency">В валюту:</label>
+        <select id="to_currency" name="to_currency">
+          {% for code, name in currencies.items() %}
+            <option value="{{ code }}">{{ name }}</option>
+          {% endfor %}
+        </select><br><br>
+        <button type="submit">Конвертировать</button>
+      </form>
+      {% if converted_amount is not none %}
+        <h2>{{ amount }} {{ currencies[from_currency] }} равно {{ converted_amount }} {{ currencies[to_currency] }}</h2>
+      {% endif %}
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </body>
+</html>
+
+
